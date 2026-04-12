@@ -1,0 +1,127 @@
+plugins {
+    alias libs.plugins.androidApplication
+    alias libs.plugins.hiltAndroid
+
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+    id 'kotlin-parcelize'
+}
+
+android {
+    namespace "com.starter.app"
+    compileSdk 35
+    defaultConfig {
+        applicationId "com.starter.app"
+        minSdk 23
+        targetSdk 35
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    signingConfigs {
+        debug {
+            storeFile file('../debug.keystore')
+            storePassword 'android'
+            keyAlias = 'androiddebugkey'
+            keyPassword 'android'
+        }
+    }
+
+    buildTypes {
+        debug {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    buildFeatures {
+        viewBinding true
+        buildConfig true
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    // Appcompat, core and constraint layout
+    implementation libs.kotlinStdlib
+    implementation libs.appcompat
+    implementation libs.appcompatResources
+    implementation libs.material
+    implementation libs.constraintlayout
+
+    // Coroutines
+    implementation libs.kotlinCoroutinesCore
+    implementation libs.kotlinCoroutinesAndroid
+
+    // Hilt
+    implementation libs.hiltAndroid
+    kapt libs.hiltCompiler
+
+    // Lifecycle components
+    implementation libs.lifecycleRuntimeKtx
+    implementation libs.lifecycleExtensions
+    implementation libs.lifecycleReactivestreamsKtx
+    implementation libs.lifecycleViewmodelKtx
+    implementation libs.lifecycleCommonJava8
+
+    // Retrofit
+    implementation libs.retrofit
+    implementation libs.retrofitGson
+    implementation libs.okhttpLoggingInterceptor
+
+    // KTX
+    implementation libs.fragmentKtx
+
+    // Fonts Size
+    implementation libs.ssp
+    implementation libs.sdp
+
+    // Glide
+    implementation libs.glide
+    kapt libs.glideCompiler
+
+    implementation libs.roomRuntime
+    kapt libs.roomCompiler
+    implementation libs.roomKtx
+
+    implementation libs.workRuntimeKtx
+
+    // SwipeRefreshLayout
+    implementation libs.swiperefreshlayout
+
+
+    implementation(libs.barcodeScanning)
+    implementation(libs.cameraCamera2)
+    implementation(libs.cameraLifecycle)
+    implementation(libs.cameraView)
+
+    // Firebase message
+    implementation libs.firebaseMessaging
+
+
+    // WebSocketManager:
+    implementation libs.stompprotocolandroid
+    implementation libs.javaWebsocket
+    implementation libs.rxjava
+    implementation libs.rxandroid
+}
+
+// Allow references to generated code
+kapt {
+    correctErrorTypes true
+}

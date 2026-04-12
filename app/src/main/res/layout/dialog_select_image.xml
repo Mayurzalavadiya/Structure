@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:paddingTop="20dp"
+    android:paddingBottom="20dp"
+    android:background="@drawable/bg_bottom_sheet">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/textViewLabelImage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:background="?selectableItemBackground"
+        android:gravity="center"
+        android:lines="1"
+        android:text="Select Image"
+        android:textAlignment="center"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageViewLine" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constrainLayoutImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/imageViewCamera"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@android:drawable/ic_menu_camera" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:gravity="center"
+            android:lines="1"
+            android:text="Camera"
+            android:textAlignment="center"
+            app:layout_constraintEnd_toEndOf="@+id/imageViewCamera"
+            app:layout_constraintStart_toStartOf="@+id/imageViewCamera"
+            app:layout_constraintTop_toBottomOf="@+id/imageViewCamera" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/imageViewGallery"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_marginStart="32dp"
+            app:layout_constraintStart_toEndOf="@+id/imageViewCamera"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@android:drawable/ic_menu_gallery" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:gravity="center"
+            android:lines="1"
+            android:text="Gallery"
+            android:textAlignment="center"
+            app:layout_constraintEnd_toEndOf="@+id/imageViewGallery"
+            app:layout_constraintStart_toStartOf="@+id/imageViewGallery"
+            app:layout_constraintTop_toBottomOf="@+id/imageViewGallery" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/textViewLabelVideo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="?selectableItemBackground"
+        android:gravity="center"
+        android:lines="1"
+        android:text="Select Video"
+        android:textAlignment="center"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageViewLine" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constrainLayoutVideo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="parent">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/imageViewVideoCamera"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@android:drawable/ic_menu_camera" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:gravity="center"
+            android:lines="1"
+            android:text="Camera"
+            app:layout_constraintEnd_toEndOf="@+id/imageViewVideoCamera"
+            app:layout_constraintStart_toStartOf="@+id/imageViewVideoCamera"
+            app:layout_constraintTop_toBottomOf="@+id/imageViewVideoCamera" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/imageViewVideoGallery"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_marginStart="32dp"
+            app:layout_constraintStart_toEndOf="@+id/imageViewVideoCamera"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@android:drawable/ic_menu_gallery" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:gravity="center"
+            android:lines="1"
+            android:text="Gallery"
+            app:layout_constraintEnd_toEndOf="@+id/imageViewVideoGallery"
+            app:layout_constraintStart_toStartOf="@+id/imageViewVideoGallery"
+            app:layout_constraintTop_toBottomOf="@+id/imageViewVideoGallery" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/imageViewLine"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="15dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constrainLayoutVideo" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/textViewUploadDocument"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:background="?selectableItemBackground"
+        android:gravity="center"
+        android:lines="1"
+        android:padding="10dp"
+        android:text="Select ocuments"
+        android:textAlignment="center"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageViewLine" />
+
+</androidx.appcompat.widget.LinearLayoutCompat>
