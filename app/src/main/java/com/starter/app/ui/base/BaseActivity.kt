@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.annotation.ColorRes
 import androidx.annotation.RequiresApi
 import androidx.annotation.StringRes
@@ -73,6 +74,7 @@ abstract class BaseActivity : AppCompatActivity(), HasToolbar, Navigator {
          setSupportActionBar(toolbar)*/
 
         setUpAlertDialog()
+        setupBackPress()
 
     }
 
@@ -344,5 +346,21 @@ abstract class BaseActivity : AppCompatActivity(), HasToolbar, Navigator {
                 WindowInsetsCompat.CONSUMED
             }
         }
+    }
+
+    open fun onBackActionPerform(): Boolean {
+        return true
+    }
+
+    private fun setupBackPress() {
+
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                if (onBackActionPerform()) {
+                    isEnabled = false
+                    onBackPressedDispatcher.onBackPressed()
+                }
+            }
+        })
     }
 }

@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Gravity
 import android.view.View
+import androidx.activity.OnBackPressedCallback
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.viewpager2.widget.ViewPager2
@@ -25,6 +26,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class HomeActivity : BaseActivity() {
 
     lateinit var binding: HomeActivityBinding
+
 
     override fun createViewBinding(): View {
         binding = HomeActivityBinding.inflate(layoutInflater)
@@ -66,6 +68,7 @@ class HomeActivity : BaseActivity() {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
 
+
                 when (position) {
                     0 -> {
                         applyEdgeToEdgeInsets(
@@ -105,4 +108,15 @@ class HomeActivity : BaseActivity() {
 
     }
 
+
+    override fun onBackActionPerform(): Boolean = with(binding)
+    {
+        if (binding.viewPager.currentItem != 0) {
+            // Not on first tab → go to first tab, don't close activity
+            binding.viewPager.currentItem = 0
+            return false
+        } else {
+            return true
+        }
+    }
 }

@@ -4,6 +4,7 @@ package com.starter.app.ui.fragment
 import android.Manifest
 import android.app.AlertDialog
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.provider.Settings
 import android.util.Log
@@ -38,6 +39,34 @@ class QRScannerFragment : BaseFragment<FragmentQRScannerBinding>(),
 
     private lateinit var mediaPicker: MediaPickerHelper
 
+    private var isSettingsDialogShown = false
+
+    override fun onResume() {
+        super.onResume()
+
+        if (isSettingsDialogShown) {
+            isSettingsDialogShown = false // always reset
+
+            when {
+                ContextCompat.checkSelfPermission(
+                    requireContext(), Manifest.permission.CAMERA
+                ) == PackageManager.PERMISSION_GRANTED -> {
+                    // Fully granted → start camera
+                    startCamera()
+                }
+
+                shouldShowRequestPermissionRationale(Manifest.permission.CAMERA) -> {
+                    // "Ask Every Time" was selected → re-request normally, system shows prompt
+                    cameraPermissionLauncher.launch(Manifest.permission.CAMERA)
+                }
+
+                else -> {
+                    // Still permanently denied → show settings dialog again
+                    showSettingsDialog()
+                }
+            }
+        }
+    }
 
     // Camera permission launcher
     private val cameraPermissionLauncher = registerForActivityResult(
@@ -48,14 +77,8 @@ class QRScannerFragment : BaseFragment<FragmentQRScannerBinding>(),
         } else {
             if (!shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)) {
                 // Permission denied permanently
-                AlertDialog.Builder(requireContext())
-                    .setTitle("Permission Required")
-                    .setMessage("Camera access is required to scan QR codes. Please enable it in settings.")
-                    .setPositiveButton("Go to Settings") { _, _ ->
-                        openAppSettings()
-                    }
-                    .setNegativeButton("Cancel", null)
-                    .show()
+                showSettingsDialog()
+
             } else {
                 // Permission denied temporarily
                 showMessage("Camera permission is required")
@@ -63,6 +86,18 @@ class QRScannerFragment : BaseFragment<FragmentQRScannerBinding>(),
         }
     }
 
+    private fun showSettingsDialog() {
+        AlertDialog.Builder(requireContext())
+            .setTitle("Permission Required")
+            .setMessage("Camera access is required to scan QR codes. Please enable it in settings.")
+            .setPositiveButton("Go to Settings") { _, _ ->
+                openAppSettings()
+                isSettingsDialogShown = true
+
+            }
+            .setCancelable(false)
+            .show()
+    }
 
     override fun createViewBinding(
         inflater: LayoutInflater,
@@ -79,14 +114,8 @@ class QRScannerFragment : BaseFragment<FragmentQRScannerBinding>(),
         cameraExecutor = Executors.newSingleThreadExecutor()
 
 
-        // Request permission if not granted
-        /* if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.CAMERA)
-             == PackageManager.PERMISSION_GRANTED
-         ) {
-             startCamera()
-         } else {
-             cameraPermissionLauncher.launch(Manifest.permission.CAMERA)
-         }*/
+        checkCameraPermissionAndStart()
+
 
         binding.toolbar.imageviewBack.isVisible = true
         setClickListener()
@@ -95,6 +124,17 @@ class QRScannerFragment : BaseFragment<FragmentQRScannerBinding>(),
                 lastScannedValue = null
             }, 3000) // 3 seconds cooldown*/
 
+    }
+
+
+    private fun checkCameraPermissionAndStart() {
+        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.CAMERA)
+            == PackageManager.PERMISSION_GRANTED
+        ) {
+            startCamera()
+        } else {
+            cameraPermissionLauncher.launch(Manifest.permission.CAMERA)
+        }
     }
 
     private fun setClickListener() = with(binding) {
@@ -216,7 +256,7 @@ class QRScannerFragment : BaseFragment<FragmentQRScannerBinding>(),
     }
 
     override fun onMediaSelected(media: List<PickedMedia>) {
-        binding. textViewQR.text = media.first().path
+        binding.textViewQR.text = media.first().path
     }
 
 
@@ -229,6 +269,7 @@ class QRScannerFragment : BaseFragment<FragmentQRScannerBinding>(),
     }
 
     override fun onError(error: String) {
-        Log.d("ImagePickerFailed", "onFail: $error")    }
+        Log.d("ImagePickerFailed", "onFail: $error")
+    }
 
 }

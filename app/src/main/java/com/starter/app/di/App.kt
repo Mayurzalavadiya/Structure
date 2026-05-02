@@ -30,14 +30,14 @@ class App : Application() {
     private fun registerActivityLifecycle() {
         registerActivityLifecycleCallbacks(object : ActivityLifecycleCallbacks {
             override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
-                activity.applyEdgeToEdgeInsets(
+               /* activity.applyEdgeToEdgeInsets(
                     false,
                     true,
                     ContextCompat.getDrawable(
                         activity,
                         R.drawable.bg_statusbar
                     )
-                )
+                )*/
             }
 
             override fun onActivityStarted(activity: Activity) {}

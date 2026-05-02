@@ -8,13 +8,16 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.addCallback
 import androidx.annotation.StringRes
+import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
+import com.starter.app.R
 import com.starter.app.exception.ApplicationException
 import com.starter.app.ui.manager.Navigator
+import com.starter.app.utils.AppUtil.applyEdgeToEdgeInsets
 import javax.inject.Inject
 
 abstract class BaseFragment<T : ViewBinding> : Fragment() {
@@ -41,6 +44,12 @@ abstract class BaseFragment<T : ViewBinding> : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 //        handleEdgeToEdge()
+        applyEdgeToEdgeInsets(
+            false,
+            true,
+            ContextCompat.getDrawable(requireActivity(), R.color.colorPrimary)
+        )
+
         bindData()
         setupBackPressedDispatcher()
 
