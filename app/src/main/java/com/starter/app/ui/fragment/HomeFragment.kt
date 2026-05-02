@@ -81,6 +81,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             userViewModel.getUser(limit = limit, skip = skip)
         }
     }
+
     override fun createViewBinding(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -158,13 +159,15 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
     private fun setUpAdapter() = with(binding) {
 
-        userAdapter = UserAdapter()
+        userAdapter = UserAdapter { item ->
+            item.email?.let { showMessage(it) }
+        }
+
 
         recyclerViewUsers.apply {
             layoutManager =
                 LinearLayoutManager(requireActivity(), LinearLayoutManager.VERTICAL, false)
             adapter = userAdapter
-
         }
 
     }

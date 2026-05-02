@@ -9,6 +9,7 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.toDrawable
 import com.starter.app.R
 import androidx.core.graphics.toColorInt
 
@@ -62,8 +63,9 @@ object ProgressHelper {
             }
 
             val builder = AlertDialog.Builder(context).apply {
-                setCancelable(true)
-                setView(linearLayout)
+                setCancelable(false)
+                setView(R.layout.custom_progress_view) // 👈 use XML layout
+//                setView(linearLayout)
             }
 
             dialog = builder.create()
@@ -74,6 +76,7 @@ object ProgressHelper {
                 layoutParams.width = LinearLayout.LayoutParams.WRAP_CONTENT
                 layoutParams.height = LinearLayout.LayoutParams.WRAP_CONTENT
                 attributes = layoutParams
+                setBackgroundDrawable(Color.TRANSPARENT.toDrawable())
             }
         }
     }

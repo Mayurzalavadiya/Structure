@@ -10,7 +10,8 @@ import com.starter.app.data.pojo.response.UsersResponse
 import com.starter.app.databinding.ItemUserListBinding
 import com.starter.app.utils.load
 
-class UserAdapter : RecyclerView.Adapter<UserAdapter.ViewHolder>() {
+class UserAdapter(private val onItemClick: (item: UsersResponse.User) -> Unit
+) : RecyclerView.Adapter<UserAdapter.ViewHolder>() {
 
     private var list = mutableListOf<UsersResponse.User>()
 
@@ -23,6 +24,7 @@ class UserAdapter : RecyclerView.Adapter<UserAdapter.ViewHolder>() {
         notifyDataSetChanged()
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     fun clear() {
         list.clear()
         notifyDataSetChanged()
@@ -38,6 +40,10 @@ class UserAdapter : RecyclerView.Adapter<UserAdapter.ViewHolder>() {
             textViewUserName.text = "${item.firstName} ${item.lastName}"
             textViewUserEmail.text = item.email
             textViewUserId.text = item.id.toString()
+
+            itemView.setOnClickListener {
+                onItemClick(item)
+            }
         }
     }
 

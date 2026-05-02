@@ -16,6 +16,7 @@ import com.starter.app.databinding.HomeActivityBinding
 import com.starter.app.ui.adapter.ViewPagerAdapter
 import com.starter.app.ui.base.BaseActivity
 import com.starter.app.ui.fragment.AddEventFragment
+import com.starter.app.ui.fragment.BluetoothFragment
 import com.starter.app.ui.fragment.QRScannerFragment
 import com.starter.app.ui.home.fragment.MainFragment
 import com.starter.app.ui.home.fragment.OrderFragment
@@ -71,21 +72,33 @@ class HomeActivity : BaseActivity() {
 
                 when (position) {
                     0 -> {
+                        binding.toolbar.imageviewBluetooth.isVisible = true
+
                         applyEdgeToEdgeInsets(
                             false,
                             true,
                             ContextCompat.getDrawable(this@HomeActivity, R.drawable.bg_statusbar)
                         )
+
                         toolbar.imageviewAddEvent.setOnClickListener {
                             loadActivity(
                                 IsolatedActivity::class.java,
                                 QRScannerFragment::class.java
                             ).start()
                         }
+
+                        toolbar.imageviewBluetooth.setOnClickListener {
+                            loadActivity(
+                                IsolatedActivity::class.java,
+                                BluetoothFragment::class.java
+                            ).start()
+                        }
+
                         binding.toolbar.textviewName.text = "Home"
                     }
 
                     1 -> {
+                        binding.toolbar.imageviewBluetooth.isVisible = false
                         applyEdgeToEdgeInsets(
                             false,
                             true,

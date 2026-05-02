@@ -3,6 +3,7 @@ package com.starter.app.ui.activity
 import android.os.Build
 import android.os.Bundle
 import android.view.View
+import androidx.core.view.isVisible
 import com.starter.app.R
 import com.starter.app.databinding.IsolatedAcitivtyFullBinding
 import com.starter.app.ui.base.BaseActivity
@@ -41,6 +42,28 @@ class IsolatedActivity : BaseActivity() {
 
 //            applyEdgeToEdgeInsets( true, true, ContextCompat.getDrawable(this, R.color.colorAccent))
 
+            setClickListener()
         }
     }
+
+    private fun setClickListener() {
+        isolatedFullActivityBinding.toolbar.imageviewBack.isVisible = true
+
+        isolatedFullActivityBinding.toolbar.imageviewBack.setOnClickListener {
+            goBack()
+        }
+    }
+
+    override fun setToolbarTitle(title: CharSequence) {
+        isolatedFullActivityBinding.toolbar.textviewName.text = title
+    }
+
+    override fun showToolbar(b: Boolean) {
+        isolatedFullActivityBinding.toolbar.root.visibility = if (b) View.VISIBLE else View.GONE
+    }
+
+    override fun setToolbarColor(color: Int) {
+        isolatedFullActivityBinding.toolbar.constraintToolbar.setBackgroundColor(getColor(color))
+    }
+
 }
