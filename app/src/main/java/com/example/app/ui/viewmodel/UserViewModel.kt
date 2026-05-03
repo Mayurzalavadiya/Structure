@@ -2,6 +2,7 @@ package com.example.app.ui.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.example.app.data.dao.UserDao
 import com.example.app.data.pojo.dataclass.UserEntity
 import com.example.app.data.pojo.response.UsersResponse
@@ -10,6 +11,7 @@ import com.example.app.ui.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -23,7 +25,7 @@ class UserViewModel @Inject constructor(
 
     val userLiveData = MutableLiveData<UsersResponse>()
 
-    fun getUser(limit: Int, skip: Int) = launch {
+   /* fun getUser(limit: Int, skip: Int) = launch {
         _loadingState.value = true
         try {
             val result = userRepository.getUser(limit, skip)
@@ -34,7 +36,19 @@ class UserViewModel @Inject constructor(
         } finally {
             _loadingState.value = false
         }
+    }*/
+
+    fun getUser(limit: Int, skip: Int) = launch {
+
+        viewModelScope.launch {
+            _loadingState.value = true
+            val result = userRepository.getUser(limit, skip)
+            userLiveData.value = result
+            saveUsersToDb(result.users?.filterNotNull().orEmpty())
+            _loadingState.value = false
+        }
     }
+
 
     private suspend fun saveUsersToDb(users: List<UsersResponse.User>) {
         val userEntities = users.map {

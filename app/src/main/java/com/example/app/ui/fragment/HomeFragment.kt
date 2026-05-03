@@ -6,6 +6,7 @@ import android.net.NetworkCapabilities
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
@@ -16,8 +17,11 @@ import com.example.app.ui.adapter.UserAdapter
 import com.example.app.ui.viewmodel.UserViewModel
 import com.example.app.utils.PaginationScrollListener
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class HomeFragment : BaseFragment<FragmentHomeBinding>() {
@@ -30,6 +34,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     private var totalUser: Int = 0
     private var skip = 0
     private var scroll = false
+
+    private var isSearching = false
 
     // Inside your fragment/activity
     private val connectivityManager by lazy {
@@ -100,13 +106,39 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         } else {
             userViewModel.getCachedUsers()
         }
+
+        setupSearchListener()
         scrollListener()
+    }
+
+
+    private fun setupSearchListener() = with(binding) {
+        var searchJob: Job? = null
+
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(search: String?): Boolean {
+
+                searchJob?.cancel() // Cancel previous debounce job
+                searchJob = lifecycleScope.launch {
+                    delay(300L)
+                    isSearching = search.orEmpty().isNotBlank()
+                    userAdapter.filter(search.orEmpty())
+                }
+                return true
+            }
+        })
     }
 
     private fun scrollListener() = with(binding) {
         recyclerViewUsers.addOnScrollListener(object :
             PaginationScrollListener(recyclerViewUsers.layoutManager as LinearLayoutManager) {
             override fun loadMoreItems() {
+                hideKeyBoard()
+                if (isSearching) return
                 skip += limit
                 scroll = true
                 userViewModel.getUser(limit = limit, skip = skip)

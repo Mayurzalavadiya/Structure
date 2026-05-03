@@ -12,12 +12,30 @@ class UserAdapter(private val onItemClick: (item: UsersResponse.User) -> Unit
 ) : RecyclerView.Adapter<UserAdapter.ViewHolder>() {
 
     private var list = mutableListOf<UsersResponse.User>()
+    private var searchList = mutableListOf<UsersResponse.User>()
 
 
+    fun getList(): List<UsersResponse.User> = list
     @SuppressLint("NotifyDataSetChanged")
     fun addItem(items: List<UsersResponse.User>?) {
         if (items != null) {
             this.list.addAll(items)
+            this.searchList.addAll(items)
+        }
+        notifyDataSetChanged()
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    fun filter(query: String) {
+        searchList = if (query.isBlank()) {
+            list.toMutableList()
+        } else {
+            list.filter { user ->
+                val fullName = "${user.firstName} ${user.lastName}"
+                fullName.contains(query, ignoreCase = true) ||
+                        user.email?.contains(query, ignoreCase = true) == true ||
+                        user.id?.toString()?.contains(query) == true
+            }.toMutableList()
         }
         notifyDataSetChanged()
     }
@@ -25,6 +43,7 @@ class UserAdapter(private val onItemClick: (item: UsersResponse.User) -> Unit
     @SuppressLint("NotifyDataSetChanged")
     fun clear() {
         list.clear()
+        searchList.clear()
         notifyDataSetChanged()
     }
 
@@ -55,9 +74,9 @@ class UserAdapter(private val onItemClick: (item: UsersResponse.User) -> Unit
         )
     }
 
-    override fun getItemCount(): Int = list.size
+    override fun getItemCount(): Int = searchList.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(list[position])
+        holder.bind(searchList[position])
     }
 }
