@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.starter.app">
+    package="com.example.app">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <!-- For Android 13+ -->
@@ -31,7 +31,7 @@
 
 
     <application
-        android:name="com.starter.app.di.App"
+        android:name="com.example.app.di.App"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -40,7 +40,7 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity
-            android:name="com.starter.app.ui.activity.SplashActivity"
+            android:name="com.example.app.ui.activity.SplashActivity"
             android:exported="true"
             android:theme="@style/Theme.RemoveSplashScreenTheme">
             <intent-filter>
@@ -50,17 +50,17 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.starter.app.ui.activity.HomeActivity"
+            android:name="com.example.app.ui.activity.HomeActivity"
             android:exported="false" />
         <activity
-            android:name="com.starter.app.ui.activity.AuthActivity"
+            android:name="com.example.app.ui.activity.AuthActivity"
             android:exported="false" />
         <activity
-            android:name="com.starter.app.ui.activity.IsolatedActivity"
+            android:name="com.example.app.ui.activity.IsolatedActivity"
             android:windowSoftInputMode="adjustResize"
             android:exported="false" />
 
-        <receiver android:name=".ui.base.EventNotificationReceiver" />
+        <receiver android:name="com.example.app.ui.base.EventNotificationReceiver" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
