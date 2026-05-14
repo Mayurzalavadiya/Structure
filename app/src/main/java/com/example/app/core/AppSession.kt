@@ -58,6 +58,7 @@ constructor(
         get() = appPreferences.getString(Session.USER_ID)
         set(userId) = appPreferences.putString(Session.USER_ID, userId)
 
+
     override fun getFirebaseDeviceId(callback: (deviceID: String) -> Unit) {
         FirebaseApp.initializeApp(context)
 
@@ -76,21 +77,23 @@ constructor(
         get() {
             var token = ""
             if (token.isEmpty())
-                token = Settings.Secure.getString(context.contentResolver, Settings.Secure.ANDROID_ID)
+                token =
+                    Settings.Secure.getString(context.contentResolver, Settings.Secure.ANDROID_ID)
 
             return token
         }
 
-    override//  return StringUtils.equalsIgnoreCase(appPreferences.getString(Common.LANGUAGE), "ar") ? LANGUAGE_ARABIC : LANGUAGE_ENGLISH;
-    val language: String
-        get() = "en"
+    //    override  return StringUtils.equalsIgnoreCase(appPreferences.getString(Common.LANGUAGE), "ar") ? LANGUAGE_ARABIC : LANGUAGE_ENGLISH;
+    override var language: String
+        get() = appPreferences.getString(Session.LANGUAGE, default = "en")
+        set(language) = appPreferences.putString(Session.LANGUAGE, language)
 
     override fun clearSession() {
         appPreferences.clearAll()
     }
 
     override fun clearSessionKey(vararg key: String) {
-        key.forEach {appPreferences.clear(it) }
+        key.forEach { appPreferences.clear(it) }
     }
 
 

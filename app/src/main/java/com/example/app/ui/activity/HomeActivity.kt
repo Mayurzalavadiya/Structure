@@ -68,6 +68,7 @@ class HomeActivity : BaseActivity() {
                 when (position) {
                     0 -> {
                         binding.toolbar.imageviewBluetooth.isVisible = true
+                        binding.toolbar.imageviewLanguiage.isVisible = false
 
                         applyEdgeToEdgeInsets(
                             false,
@@ -89,25 +90,37 @@ class HomeActivity : BaseActivity() {
                             ).start()
                         }
 
-                        binding.toolbar.textviewName.text = "Home"
+                        binding.toolbar.textviewName.text = getString(R.string.home)
                     }
 
                     1 -> {
                         binding.toolbar.imageviewBluetooth.isVisible = false
+                        binding.toolbar.imageviewLanguiage.isVisible = true
                         applyEdgeToEdgeInsets(
                             false,
                             true,
                             ContextCompat.getDrawable(this@HomeActivity, R.color.colorPrimary)
                         )
+
+                        toolbar.imageviewLanguiage.setOnClickListener {
+
+                            val language =
+                                if (session.language == "en") "hi"
+                                else "en"
+
+                            changeLanguage(language)
+                        }
+
                         toolbar.imageviewAddEvent.setOnClickListener {
                             loadActivity(
                                 IsolatedActivity::class.java,
                                 AddEventFragment::class.java
                             ).start()
                         }
-                        binding.toolbar.textviewName.text = "Event"
+                        binding.toolbar.textviewName.text = getString(R.string.event)
                     }
                 }
+
                 binding.toolbar.imageviewAddEvent.isVisible = true/*(position == 1)*/
 
                 Log.d("ViewPager", "Page selected: $position")
@@ -116,6 +129,15 @@ class HomeActivity : BaseActivity() {
 
     }
 
+
+    private fun changeLanguage(language: String) {
+
+        session.language = language
+
+        val intent = intent
+        finish()
+        startActivity(intent)
+    }
 
     override fun onBackActionPerform(): Boolean = with(binding)
     {

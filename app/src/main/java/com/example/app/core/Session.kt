@@ -14,17 +14,17 @@ interface Session {
 
     var user: User?
 
-    val language: String
+    var language: String
 
     var isLogin: Boolean
 
     var isTutorial: Boolean
 
-    var deviceToken:String
+    var deviceToken: String
 
     fun clearSession()
 
-    fun clearSessionKey(vararg key:String)
+    fun clearSessionKey(vararg key: String)
 
     fun getFirebaseDeviceId(callback: (deviceID: String) -> Unit)
 
@@ -36,6 +36,7 @@ interface Session {
         const val LANGUAGE = "accept-language"
         const val DEVICE_TOKEN = "device-token"
         const val IS_LOGIN = "is-login"
+
         const val TUTORIAL = "tutorial"
     }
 }

@@ -38,8 +38,8 @@ constructor(context: Context) {
         return sharedPreferences.getBoolean(name, false)
     }
 
-    fun getString(name: String): String {
-        return sharedPreferences.getString(name,"")?:""
+    fun getString(name: String, default:String = ""): String {
+        return sharedPreferences.getString(name,default)?:default
     }
 
     fun getInt(name: String): Int {

@@ -49,6 +49,18 @@
         app:tint="@android:color/white" />
 
     <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/imageviewLanguiage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/_10sdp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/imageviewAddEvent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_language"
+        app:tint="@android:color/white" />
+
+    <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/imageviewAddEvent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

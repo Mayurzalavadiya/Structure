@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Android Starter</string>
     <string name="hint_email_address">Email Address</string>
@@ -31,7 +32,7 @@
     <string name="dialog_storage_gallery_open_settings_message">"Please allow storage permission from settings to help us access files. "</string>
     <string name="dialog_location_open_settings_positive_button">Open Settings</string>
     <string name="dialog_location_open_settings_negative_button">Cancel</string>
-    <string name="home">Home</string>
-    <string name="event">Event</string>
+    <string name="home">घर</string>
+    <string name="event">आयोजन</string>
 
 </resources>

@@ -27,6 +27,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
 import com.google.android.material.snackbar.Snackbar
 import com.example.app.R
+import com.example.app.core.AppPreferences
 import com.example.app.core.Session
 import com.example.app.exception.ApplicationException
 import com.example.app.exception.AuthenticationException
@@ -38,6 +39,7 @@ import com.example.app.ui.manager.FragmentActionPerformer
 import com.example.app.ui.manager.FragmentNavigationFactory
 import com.example.app.ui.manager.Navigator
 import com.example.app.utils.ProgressHelper
+import com.example.app.utils.localization.LocaleManager
 import dagger.hilt.android.AndroidEntryPoint
 import java.net.ConnectException
 import java.net.SocketTimeoutException
@@ -127,6 +129,15 @@ abstract class BaseActivity : AppCompatActivity(), HasToolbar, Navigator {
         } catch (e: java.lang.Exception) {
 
         }
+    }
+
+    override fun attachBaseContext(newBase: Context) {
+        val prefs = newBase.getSharedPreferences(AppPreferences.SHARED_PREF_NAME, Context.MODE_PRIVATE)
+        val language = prefs.getString(Session.LANGUAGE, "en") ?: "en"
+        // Session.LANGUAGE = "accept-language"
+
+        val context = LocaleManager.setLocale(newBase, language)
+        super.attachBaseContext(context)
     }
 
     private fun setUpAlertDialog() {
