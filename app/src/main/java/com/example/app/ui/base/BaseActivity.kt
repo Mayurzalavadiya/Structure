@@ -369,7 +369,7 @@ abstract class BaseActivity : AppCompatActivity(), HasToolbar, Navigator {
             override fun handleOnBackPressed() {
                 if (onBackActionPerform()) {
                     isEnabled = false
-                    onBackPressedDispatcher.onBackPressed()
+                    goBack()
                 }
             }
         })

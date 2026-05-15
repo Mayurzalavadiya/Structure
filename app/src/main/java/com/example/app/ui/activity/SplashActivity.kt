@@ -9,8 +9,24 @@ import com.example.app.databinding.SplashActivityBinding
 import com.example.app.ui.base.BaseActivity
 
 class SplashActivity : BaseActivity() {
-    //Data store on after user login
+
     lateinit var splashActivityBinding: SplashActivityBinding
+
+    private val handler = Handler(Looper.getMainLooper())
+
+    private val runnable = Runnable {
+
+        if (isFinishing || isDestroyed) return@Runnable
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            checkNotificationPermission()
+        }
+
+        loadActivity(
+            HomeActivity::class.java
+        ).byFinishingCurrent().start()
+    }
+
     override fun findFragmentPlaceHolder(): Int {
         return 0
     }
@@ -22,19 +38,19 @@ class SplashActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Handler(Looper.getMainLooper()).postDelayed({
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                checkNotificationPermission() //Permission to check for android 13 notifications
-            }
-
-            loadActivity(
-               HomeActivity::class.java
-            ).byFinishingCurrent().start()
-
-            //loadActivity(HomeActivity::class.java).byFinishingCurrent().start()
-
-        }, 2000)
+        handler.postDelayed(runnable, 2000)
     }
 
+    override fun goBack() {
+        super.goBack()
+        handler.removeCallbacks(runnable)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+
+        // Prevent callback after activity closed
+        handler.removeCallbacks(runnable)
+    }
 }
