@@ -34,15 +34,15 @@ class HomeActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        setUpAdapter()
+        setUpAdapter()
         setClickListener()
 
 //        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
 //            checkNotificationPermission() //Permission to check for android 13 notifications
 //        }
 
-        binding.toolbar.textviewName.text = "Home"
-        load(HomeFragment::class.java).replace(false)
+//        binding.toolbar.textviewName.text = "Home"
+//        load(HomeFragment::class.java).replace(false)
     }
 
     private fun setClickListener() = with(binding) {

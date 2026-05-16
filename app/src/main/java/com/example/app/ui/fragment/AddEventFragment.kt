@@ -34,6 +34,7 @@ import com.example.app.utils.imagepicker.MediaPickerHelper
 import com.example.app.utils.imagepicker.PickedMedia
 import com.example.app.utils.load
 import dagger.hilt.android.AndroidEntryPoint
+import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
@@ -52,6 +53,7 @@ class AddEventFragment : BaseFragment<FragmentAddEventBinding>() {
     private var currentEvent: Event? = null
 
     private var imageUri: Uri? = null
+    private var imagePath: File? = null
 
     private var eventId: Int? = null
 
@@ -111,7 +113,6 @@ class AddEventFragment : BaseFragment<FragmentAddEventBinding>() {
             observeData()
         }
 
-        binding.toolbar.imageviewBack.isVisible = true
 
         mediaPicker = MediaPickerHelper(
             activity = requireActivity() as BaseActivity,
@@ -126,6 +127,7 @@ class AddEventFragment : BaseFragment<FragmentAddEventBinding>() {
 
             override fun onMediaSelected(media: List<PickedMedia>) {
                 imageUri = media.first().uri
+                imagePath = media.first().path.let { File(it) }
                 binding.imageViewImage.load(imageUri.toString(), true)
             }
 
@@ -149,10 +151,6 @@ class AddEventFragment : BaseFragment<FragmentAddEventBinding>() {
 
     private fun setClickListener() = with(binding) {
 
-        binding.toolbar.imageviewBack.setOnClickListener {
-            navigator.goBack()
-        }
-
         buttonSave.setOnClickListener {
             if (isValid) {
                 val alarmManager =
@@ -174,7 +172,7 @@ class AddEventFragment : BaseFragment<FragmentAddEventBinding>() {
                 val title = binding.editTextTitle.text.toString().trim()
                 val description = binding.editTextDescription.text.toString().trim()
                 val dateTime = binding.editTextDateTime.text.toString().trim()
-                val image = imageUri.toString()
+                val image = imagePath?.absolutePath ?: ""
 
                 val event = if (eventId == -1) {
                     Event(
@@ -313,42 +311,6 @@ class AddEventFragment : BaseFragment<FragmentAddEventBinding>() {
         }
     }
 
-    private fun requestPermission() {
-        val permission = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            Manifest.permission.READ_MEDIA_IMAGES
-        } else {
-            Manifest.permission.READ_EXTERNAL_STORAGE
-        }
-
-        permissionLauncher.launch(permission)
-    }
-
-
-    private val permissionLauncher = registerForActivityResult(
-        ActivityResultContracts.RequestPermission()
-    ) { isGranted ->
-        if (isGranted) {
-            openGallery()
-        } else {
-            showMessage("Permission Denied")
-        }
-    }
-
-    private val pickImageLauncher = registerForActivityResult(
-        ActivityResultContracts.StartActivityForResult()
-    ) { result ->
-        if (result.resultCode == Activity.RESULT_OK) {
-            imageUri = result.data?.data
-            binding.imageViewImage.load(imageUri.toString(), true)
-        }
-    }
-
-
-    private fun openGallery() {
-        val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-        pickImageLauncher.launch(intent)
-    }
-
 
     override fun onBackActionPerform(): Boolean {
         return true
@@ -364,7 +326,7 @@ class AddEventFragment : BaseFragment<FragmentAddEventBinding>() {
                     binding.editTextTitle.setText(it.title)
                     binding.editTextDescription.setText(it.description)
                     imageUri = it.imageUri.toUri()
-                    Glide.with(requireActivity()).load(it.imageUri).into(binding.imageViewImage)
+                    Glide.with(requireActivity()).load(File(it.imageUri)).into(binding.imageViewImage)
                 }
             }
         }
