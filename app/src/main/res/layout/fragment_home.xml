@@ -6,25 +6,36 @@
     android:layout_height="match_parent"
     tools:context=".ui.fragment.HomeFragment">
 
-    <androidx.appcompat.widget.SearchView
-        android:id="@+id/searchView"
-        android:layout_width="match_parent"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/materialCardView"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/_12sdp"
-        app:iconifiedByDefault="false"
+        android:layout_margin="@dimen/_15sdp"
+        app:cardBackgroundColor="@color/white"
+        app:cardCornerRadius="@dimen/_12sdp"
+        app:cardElevation="3dp"
         app:layout_constraintBottom_toTopOf="@id/recyclerViewUsers"
-        app:layout_constraintTop_toTopOf="parent"
-        app:queryBackground="@color/white"
-        app:queryHint="Search" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+
+        <androidx.appcompat.widget.SearchView
+            android:id="@+id/searchView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:iconifiedByDefault="false"
+            app:queryBackground="@color/white"
+            app:queryHint="Search" />
+    </androidx.cardview.widget.CardView>
 
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewUsers"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        tools:listitem="@layout/item_user_list"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/searchView"
-        />
+        app:layout_constraintTop_toBottomOf="@id/materialCardView"
+        tools:listitem="@layout/item_user_list" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

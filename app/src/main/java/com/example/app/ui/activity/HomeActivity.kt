@@ -14,6 +14,7 @@ import com.example.app.ui.adapter.ViewPagerAdapter
 import com.example.app.ui.base.BaseActivity
 import com.example.app.ui.fragment.AddEventFragment
 import com.example.app.ui.fragment.BluetoothFragment
+import com.example.app.ui.fragment.HomeFragment
 import com.example.app.ui.fragment.QRScannerFragment
 import com.example.app.utils.AppUtil.applyEdgeToEdgeInsets
 import dagger.hilt.android.AndroidEntryPoint
@@ -29,19 +30,51 @@ class HomeActivity : BaseActivity() {
         return binding.root
     }
 
-    override fun findFragmentPlaceHolder(): Int = 0
+    override fun findFragmentPlaceHolder(): Int = R.id.placeHolder
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setUpAdapter()
+//        setUpAdapter()
         setClickListener()
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            checkNotificationPermission() //Permission to check for android 13 notifications
-        }
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+//            checkNotificationPermission() //Permission to check for android 13 notifications
+//        }
+
+        binding.toolbar.textviewName.text = "Home"
+        load(HomeFragment::class.java).replace(false)
     }
 
     private fun setClickListener() = with(binding) {
+        toolbar.imageviewAddEvent.setOnClickListener {
+            loadActivity(
+                IsolatedActivity::class.java,
+                QRScannerFragment::class.java
+            ).start()
+        }
+
+        toolbar.imageviewBluetooth.setOnClickListener {
+            loadActivity(
+                IsolatedActivity::class.java,
+                BluetoothFragment::class.java
+            ).start()
+        }
+
+        toolbar.imageviewLanguiage.setOnClickListener {
+
+            val language =
+                if (session.language == "en") "hi"
+                else "en"
+
+            changeLanguage(language)
+        }
+
+        toolbar.imageviewAddEvent.setOnClickListener {
+            loadActivity(
+                IsolatedActivity::class.java,
+                AddEventFragment::class.java
+            ).start()
+        }
 
     }
 
@@ -70,25 +103,13 @@ class HomeActivity : BaseActivity() {
                         binding.toolbar.imageviewBluetooth.isVisible = true
                         binding.toolbar.imageviewLanguiage.isVisible = false
 
-                        applyEdgeToEdgeInsets(
+                       /* applyEdgeToEdgeInsets(
                             false,
                             true,
                             ContextCompat.getDrawable(this@HomeActivity, R.drawable.bg_statusbar)
-                        )
+                        )*/
 
-                        toolbar.imageviewAddEvent.setOnClickListener {
-                            loadActivity(
-                                IsolatedActivity::class.java,
-                                QRScannerFragment::class.java
-                            ).start()
-                        }
 
-                        toolbar.imageviewBluetooth.setOnClickListener {
-                            loadActivity(
-                                IsolatedActivity::class.java,
-                                BluetoothFragment::class.java
-                            ).start()
-                        }
 
                         binding.toolbar.textviewName.text = getString(R.string.home)
                     }
@@ -96,27 +117,13 @@ class HomeActivity : BaseActivity() {
                     1 -> {
                         binding.toolbar.imageviewBluetooth.isVisible = false
                         binding.toolbar.imageviewLanguiage.isVisible = true
-                        applyEdgeToEdgeInsets(
+                       /* applyEdgeToEdgeInsets(
                             false,
                             true,
                             ContextCompat.getDrawable(this@HomeActivity, R.color.colorPrimary)
-                        )
+                        )*/
 
-                        toolbar.imageviewLanguiage.setOnClickListener {
 
-                            val language =
-                                if (session.language == "en") "hi"
-                                else "en"
-
-                            changeLanguage(language)
-                        }
-
-                        toolbar.imageviewAddEvent.setOnClickListener {
-                            loadActivity(
-                                IsolatedActivity::class.java,
-                                AddEventFragment::class.java
-                            ).start()
-                        }
                         binding.toolbar.textviewName.text = getString(R.string.event)
                     }
                 }

@@ -48,9 +48,10 @@
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/textViewUserId"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="@dimen/_10ssp"
+        app:layout_constraintStart_toEndOf="@id/textViewUserName"
         app:layout_constrainedWidth="true"
         app:layout_constraintBottom_toBottomOf="@+id/textViewUserName"
         app:layout_constraintEnd_toEndOf="parent"
@@ -66,7 +67,7 @@
         android:textSize="@dimen/_10ssp"
         app:layout_constrainedWidth="true"
         app:layout_constraintBottom_toBottomOf="@id/cardViewImage"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/textViewUserName"
         app:layout_constraintStart_toEndOf="@id/cardViewImage"
         app:layout_constraintTop_toBottomOf="@id/textViewUserName" />
 
